@@ -143,7 +143,19 @@ def extract_answers(request):
 def show_exam_result(request, course_id, submission_id):
     course = Course.objects.get(pk=course_id)
     submission = Submission.objects.get(pk=submission_id)
-    
-
-
+    choices_list = []
+    if submission.choice.all() is not None:
+        for choice in submission.choices.all():
+            choices_list.append(choice.id)
+    grade = 0
+    total = 0
+    for question in Question.objects.filter(course=course):
+        if question.is_get_score(choices_list):
+            grade += question.grade
+        total += question.grade
+    result = {}
+    result['course'] = course
+    result['choices_id'] = choices_list
+    result['grade'] = 100 * grade / total
+    return render(request, 'onlinecourse/exam_result_bootstrap.html', result)
 
