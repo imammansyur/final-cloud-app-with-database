@@ -157,5 +157,5 @@ def show_exam_result(request, course_id, submission_id):
     result['course'] = course
     result['choices_id'] = choices_list
     result['grade'] = 100 * grade / total
-    return render(request, 'onlinecourse/exam_result_bootstrap.html', result {})
+    return render(request, 'onlinecourse/exam_result_bootstrap.html', result)
 
